@@ -44,7 +44,7 @@ root
 下記にmapperとmodelで作成される
 ```
 demo-persistence
-┗ java/net/ksasaki/template/demo/persistence/mappergen
+┗ java/net/ksasaki/template/demo/persistence/mappergen 
 ┗ java/net/ksasaki/template/demo/persistence/modelgen
 ```
 
