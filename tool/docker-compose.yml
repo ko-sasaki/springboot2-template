@@ -1,0 +1,47 @@
+
+
+version: "3.7"
+services:
+  demo-nginx:
+    container_name: demo-nginx
+    image: nginx:1.17-alpine
+    ports:
+      - "8000:80"
+    # volumes:
+      # - "./docker/nginx/default.conf":"/etc/nginx/conf.d/default.conf"
+  demo-redis:
+    container_name: demo-redis
+    image: redis:6.0-alpine
+    ports:
+      - "6379:6379"
+  demo-redis-commander:
+    container_name: demo-redis-commander
+    image: rediscommander/redis-commander
+    environment:
+      - REDIS_HOSTS=local:demo-redis:6379,local:demo-redis:6379:1,local:demo-redis:6379:2,local:demo-redis:6379:3,local:demo-redis:6379:4,local:demo-redis:6379:5
+
+    ports:
+      - "9000:8081"
+    depends_on:
+      - demo-redis
+    links:
+      - demo-redis
+  demo-database:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: local_root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./mysql/initdb.d:/docker-entrypoint-initdb.d"
+      - "./log/mysql:/var/log/mysql"
+      - "./mysql/conf.d:/etc/mysql/conf.d"
+      - "./mysql-data:/var/lib/mysql"
+    container_name: demo-mysql
+  demo-adminer:
+    container_name: demo-adminer
+    image: adminer:latest
+    ports:
+      - "9090:8080"
+    depends_on:
+      - demo-database

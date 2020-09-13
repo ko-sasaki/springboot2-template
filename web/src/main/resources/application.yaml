@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: local
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    mode: HTML
+    suffix: .html
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: demo-user
+      password: demo-password
+      jdbc-url: jdbc:mysql://localhost:3306/demo
+    url: jdbc:mysql://localhost:3306/demo
+    username: demo-user
+    password: demo-password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cache:
+    type: redis
+    redis:
+      key-prefix: demo
+      use-key-prefix: true
+  redis:
+    host: localhost
+    port: 6379
+  freemarker:
+    enabled: true
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  default-scripting-language-driver: org.apache.ibatis.scripting.defaults.RawLanguageDriver
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+logging:
+  level:
+    net: debug

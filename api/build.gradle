@@ -1,0 +1,19 @@
+apply plugin: 'org.openapi.generator'
+apply plugin: 'org.springdoc.openapi-gradle-plugin'
+
+bootJar {
+    enabled = true
+}
+
+bootRun {
+    sourceResources sourceSets.main
+}
+
+dependencies {
+    implementation project(":module:web-service")
+    implementation project(":module:web-repository")
+    implementation project(":module:core")
+    implementation project(":module:demo-persistence")
+    implementation("org.springdoc:springdoc-openapi-ui:1.4.2")
+    implementation "org.mybatis.dynamic-sql:mybatis-dynamic-sql:$mybatisDynamicSqlVersion"
+}

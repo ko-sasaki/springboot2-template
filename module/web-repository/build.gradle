@@ -1,0 +1,7 @@
+
+dependencies {
+    implementation project(":module:core")
+    implementation project(":module:demo-persistence")
+    implementation "org.mybatis.dynamic-sql:mybatis-dynamic-sql:$mybatisDynamicSqlVersion"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${springMybatisStarterVersion}"
+}

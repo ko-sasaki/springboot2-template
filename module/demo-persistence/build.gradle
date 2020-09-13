@@ -1,0 +1,62 @@
+plugins {
+    id "org.flywaydb.flyway" version "6.4.1"
+    id "com.thinkimi.gradle.MybatisGenerator" version "2.2"
+}
+
+configurations {
+    mybatisGenerator
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+mybatisGenerator {
+    configFile = 'mybatis/generatorConfig.xml'
+    dependencies {
+        mybatisGenerator 'mysql:mysql-connector-java:8.0.20'
+        mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.4.0'
+    }
+}
+
+dependencies {
+    compile 'mysql:mysql-connector-java:8.0.20'
+    implementation "org.mybatis.dynamic-sql:mybatis-dynamic-sql:$mybatisDynamicSqlVersion"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${springMybatisStarterVersion}"
+}
+
+flyway {
+    url = "jdbc:mysql://localhost:3306/demo?autoreconnect=true&useUnicode=true&characterEncoding=UTF-8"
+    user = "demo-user"
+    password = "demo-password"
+    locations = ["filesystem:./database/demo", "filesystem:./database/demo-data"]
+}
+
+/**
+ * create table structure sql file.
+ * V${yyyyMMddHHmm}__newfile.sql
+ */
+task createTableSqlFile() {
+    String DIR = "database" + File.separator + "demo"
+    def date = new Date().format("yyyyMMddHHmm").toString()
+    def filename = DIR + File.separator + "V" + date + "__" + "newfile.sql"
+
+    doLast {
+        new File(filename).createNewFile()
+    }
+}
+
+/**
+ * create table data sql file.
+ * pattern V${yyyyMMddHHmm}__newfile.sql
+ */
+task createDataSqlFile() {
+    String DIR = "database" + File.separator + "demo-data"
+    def date = new Date().format("yyyyMMddHHmm").toString()
+    def filename = DIR + File.separator + "V" + date + "__" + "data_newfile.sql"
+
+    doLast {
+        new File(filename).createNewFile()
+    }
+}

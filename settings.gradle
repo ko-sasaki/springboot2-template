@@ -1,0 +1,23 @@
+rootProject.name = "springboot-template"
+
+// web
+include 'web'
+
+// api
+include 'api'
+
+// admin
+include 'admin'
+include 'admin:admin-service'
+include 'admin:admin-repository'
+
+// module
+include 'module:core'
+include 'module:demo-persistence'
+include 'module:web-service'
+include 'module:web-repository'
+
+include 'stella:core'
+include 'stella:service'
+include 'stella:repository'
+

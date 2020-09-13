@@ -1,0 +1,45 @@
+
+plugins {
+    id "org.flywaydb.flyway" version "6.4.1"
+    id "com.thinkimi.gradle.MybatisGenerator" version "2.2"
+}
+
+configurations {
+    mybatisGenerator
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+
+}
+
+mybatisGenerator {
+    configFile = 'mybatis/generatorConfig.xml'
+    dependencies {
+        mybatisGenerator 'mysql:mysql-connector-java:8.0.20'
+        mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.4.0'
+    }
+}
+
+dependencies {
+    compile 'mysql:mysql-connector-java:8.0.20'
+}
+
+
+def targetList = ["service","admin"]
+targetList.each { name ->
+
+    task "${name}FlywayMigrate" (type: org.flywaydb.gradle.task.FlywayMigrateTask) {
+        configFiles = ["database/config/${name}.properties"]
+    }
+    task "${name}FlywayBaseline" (type: org.flywaydb.gradle.task.FlywayBaselineTask) {
+        configFiles = ["database/config/${name}.properties"]
+    }
+    task "${name}FlywayClean" (type: org.flywaydb.gradle.task.FlywayCleanTask) {
+        configFiles = ["database/config/${name}.properties"]
+    }
+    task "${name}FlywayInfo" (type: org.flywaydb.gradle.task.FlywayInfoTask) {
+        configFiles = ["database/config/${name}.properties"]
+    }
+}
